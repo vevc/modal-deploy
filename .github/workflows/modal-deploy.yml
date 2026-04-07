@@ -2,6 +2,19 @@ name: Modal Deploy
 
 on:
   workflow_dispatch:
+    inputs:
+      modal_region:
+        description: "Optional Modal region (e.g. us-east, ap-northeast-1). Comma-separated for multiple. Empty = default scheduling."
+        required: false
+        default: ""
+      modal_nonpreemptible:
+        description: "Non-preemptible workers (higher CPU/memory cost; see Modal docs)."
+        required: false
+        type: choice
+        default: "false"
+        options:
+          - "false"
+          - "true"
 
 jobs:
   deploy:
@@ -25,6 +38,8 @@ jobs:
         env:
           MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
           MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+          MODAL_REGION: ${{ inputs.modal_region }}
+          MODAL_NONPREEMPTIBLE: ${{ inputs.modal_nonpreemptible }}
         run: |
           set -euo pipefail
           modal deploy main.py
