@@ -18,9 +18,9 @@
    modal token set --token-id ak-DVvVsBafuR5jwERY9c6bem --token-secret as-frL0MjzFDw7DLLe7Yxtry1
    ```
 
-   注：以上 token 信息均为示例信息，请生成自己的信息。
+   注：以上 token 信息为示例信息，请生成自己的信息。
 
-3. 在 Modal 控制台 **Secrets** 中创建 **Custom** 类型 Secret，名称使用默认的 `custom-secret` ，设置以下必填变量信息：
+3. 在 Modal 控制台 **Secrets** 中创建 **Custom** 类型 Secret，名称使用默认的 `custom-secret` ，设置以下变量信息：
    | 变量 | 是否必填 | 含义 |
    |------|------|------|
    | U | ✔ | UUID |
