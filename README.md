@@ -1,6 +1,6 @@
 # modal-deploy
 
-在 [Modal](https://modal.com) 上部署基于 FastAPI 的服务，使用 GitHub Actions 部署。
+在 [Modal](https://modal.com) 上部署 Xray 代理服务，使用 GitHub Actions 部署。
 
 ## 前置条件
 
