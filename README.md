@@ -1,6 +1,6 @@
 # modal-deploy
 
-在 [Modal](https://modal.com) 上部署 Xray 代理服务，使用 GitHub Actions 部署。
+在 [Modal](https://modal.com) 上部署 Xray 代理服务。
 
 ## 前置条件
 
