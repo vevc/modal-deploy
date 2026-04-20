@@ -26,7 +26,7 @@
    | U | ✔ | UUID |
    | D | ✔ | Argo 域名（ARGO_DOMAIN） |
    | T | ✔ | Argo Tunnel Token（ARGO_TOKEN） |
-   | E | ✖ | Modal 项目访问地址（endpoint），可以不填，形如：`https://<modal_username>--vevc-app-main.modal.run`，如果填写，项目大概每 5 分钟会访问一次自身地址，保持有活跃流量 |
+   | E | ✖ | Modal 项目访问地址（endpoint），形如：`https://<modal_username>--vevc-app-main.modal.run`，如果填写，项目大概每 5 分钟会访问一次自身地址，保持有活跃流量 |
 
 
 ## GitHub Actions 部署
