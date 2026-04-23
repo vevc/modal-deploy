@@ -1,0 +1,33 @@
+name: Modal Stop App
+
+on:
+  workflow_dispatch:
+    inputs:
+      app_identifier:
+        description: "要停止的 Modal App 名称或 ID（例如 vevc-app 或 ap-xxxx）。留空则默认 vevc-app。参考：https://modal.com/docs/reference/cli/app#modal-app-stop"
+        required: false
+        default: "vevc-app"
+
+jobs:
+  stop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Modal CLI
+        run: |
+          python -m pip install --upgrade pip
+          pip install modal
+
+      - name: Stop Modal App
+        env:
+          MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
+          MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+          APP_IDENTIFIER: ${{ inputs.app_identifier }}
+        run: |
+          set -euo pipefail
+          modal app stop -y "${APP_IDENTIFIER}"
