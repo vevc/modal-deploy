@@ -7,6 +7,7 @@
 ### Cloudflare
 
 - 准备 **Cloudflare Argo Tunnel** 的 **Token**
+- Argo 配置服务的 **内部访问地址** 为 `http://localhost:8080`
 
 ### Modal
 
