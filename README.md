@@ -48,7 +48,7 @@
 
 ## 获取订阅链接
 
-部署成功后，访问下面地址即可查看 Xray 订阅链接（返回内容为订阅信息的 Base64 编码）：
+部署成功后，访问下面地址查看 Xray 订阅链接（返回内容为订阅信息的 Base64 编码）：
 
 `https://<modal_username>--vevc-app-main.modal.run/<UUID>`
 
