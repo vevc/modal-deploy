@@ -46,6 +46,15 @@
 
    如果介意 IP 全球漂移，性价比方案使用 **modal_region** 固定区域；高成本方案开启 **modal_nonpreemptible** 固定 IP。
 
+## 获取订阅链接
+
+部署成功后，访问下面地址即可查看 Xray 订阅链接（返回内容为订阅信息的 Base64 编码）：
+
+`https://<modal_username>--vevc-app-main.modal.run/<UUID>`
+
+- `<modal_username>`：你的 Modal 用户名
+- `<UUID>`：你在 Modal Secret `custom-secret` 中设置的 `U`
+
 ## 说明
 
 - `MODAL_REGION` / `MODAL_NONPREEMPTIBLE` 为本项目约定名称，由 `main.py` 读取后传给 Modal；与 `MODAL_TOKEN_ID` 等 Modal 客户端内置鉴权变量含义不同。
