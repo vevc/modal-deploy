@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       modal_region:
-        description: "可选：指定 Modal 运行区域（例如 us-east、ap-northeast-1）。多个区域用英文逗号分隔。留空表示不固定区域（默认调度）。参考：https://modal.com/docs/guide/region-selection#region-options"
+        description: "可选：指定 Modal 运行区域（例如 us-west、ap-northeast-1）。多个区域用英文逗号分隔。留空表示不固定区域（默认调度）。参考：https://modal.com/docs/guide/region-selection#region-options"
         required: false
         default: ""
       modal_nonpreemptible:
