@@ -99,7 +99,12 @@
       "tag": "force-to-ip",
       "protocol": "freedom",
       "settings": {
-        "redirect": "127.0.0.1:0"
+        "redirect": "127.0.0.1:0",
+        "finalRules": [
+          {
+            "action": "allow"
+          }
+        ]
       }
     }
   ]
