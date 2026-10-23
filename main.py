@@ -5,7 +5,7 @@ import os
 import subprocess
 import uuid
 
-INSTALL_SCRIPT_VERSION = 4
+INSTALL_SCRIPT_VERSION = 5
 
 # Optional deploy-time settings (read when `modal deploy` loads this file):
 #   MODAL_REGION            Comma-separated region ids (e.g. "us-east" or "ap-northeast-1,eu-west-1").
