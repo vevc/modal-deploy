@@ -20,8 +20,8 @@ openssl req -x509 -nodes -newkey ec:<(openssl ecparam -name prime256v1) \
   -addext "subjectAltName=DNS:www.bing.com" \
   -days 36500
 
-curl -sSL -o /etc/xy/xy-direct.json https://raw.githubusercontent.com/vevc/modal-deploy/refs/heads/main/xray-config.json
-curl -sSL -o /etc/xy/xy-warp.json https://raw.githubusercontent.com/vevc/modal-deploy/refs/heads/main/xray-warp-config.json
+curl -sSL -o /etc/xy/xy-direct.json https://raw.githubusercontent.com/vevc/modal-deploy/refs/heads/dev/xray-config.json
+curl -sSL -o /etc/xy/xy-warp.json https://raw.githubusercontent.com/vevc/modal-deploy/refs/heads/dev/xray-warp-config.json
 
 curl -sSL -o /usr/local/bin/cf https://github.com/cloudflare/cloudflared/releases/download/$ARGO_VERSION/cloudflared-linux-amd64
 chmod +x /usr/local/bin/cf
