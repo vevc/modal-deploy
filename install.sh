@@ -47,7 +47,7 @@ EOF
 # cf startup
 cat > /etc/supervisor/conf.d/cf.conf <<EOF
 [program:cf]
-command=cf tunnel --no-autoupdate --edge-ip-version auto --protocol http2 run --token %(ENV_T)s
+command=cf tunnel --no-autoupdate run --token %(ENV_T)s
 autostart=true
 autorestart=true
 stdout_logfile = /dev/null
