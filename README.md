@@ -24,10 +24,11 @@
 3. 在 Modal 控制台 **Secrets** 中创建 **Custom** 类型 Secret，名称使用默认的 `custom-secret` ，设置以下变量信息：
    | 变量 | 是否必填 | 含义 |
    |------|------|------|
-   | U | ✔ | UUID |
+   | U | ✔ | UUID（原生出口节点用户凭据） |
    | D | ✔ | Argo 域名（ARGO_DOMAIN） |
    | T | ✔ | Argo Tunnel Token（ARGO_TOKEN） |
    | E | ✖ | Modal 项目访问地址（endpoint），形如：`https://<modal_username>--vevc-app-main.modal.run`，如果填写，项目大概每 5 分钟会访问一次自身地址，保持有活跃流量 |
+   | P | ✖ | Cloudflare WARP WireGuard 私钥。若配置，系统会自动派生 WARP 用户 UUID 并启用 WARP 出口分流 |
 
 
 ## GitHub Actions 部署
@@ -48,12 +49,19 @@
 
 ## 获取订阅链接
 
-部署成功后，访问下面地址查看 Xray 订阅链接（返回内容为订阅信息的 Base64 编码）：
+部署成功后，访问下面地址查看订阅链接（返回内容为订阅信息的 Base64 编码）：
 
 `https://<modal_username>--vevc-app-main.modal.run/<UUID>`
 
 - `<modal_username>`：你的 Modal 用户名
 - `<UUID>`：你在 Modal Secret `custom-secret` 中设置的 `U`
+
+**节点输出逻辑说明**：
+- **未配置 `P` 变量时**：返回 **2 个原生网络节点**
+  - `modal-ws-argo`：VLESS-WS 协议（基于 Cloudflare Argo Tunnel，原生网络出口）
+  - `modal-hy2-realm`：Hysteria 2 协议（基于 Realm NAT 穿透，原生网络出口）
+- **已配置 `P` 变量时**：返回 **4 个节点**（2 个原生网络节点 + 2 个 WARP 出口分流节点）
+  - 额外提供经由 Cloudflare WARP 出口分流的 `modal-ws-warp` 与 `modal-hy2-warp`
 
 ## 说明
 

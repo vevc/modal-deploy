@@ -1,0 +1,145 @@
+{
+  "log": {
+    "loglevel": "none",
+    "access": "none",
+    "error": "none"
+  },
+  "inbounds": [
+    {
+      "port": 8080,
+      "protocol": "vless",
+      "settings": {
+        "decryption": "none",
+        "clients": [
+          {
+            "id": "YOUR_UUID",
+            "email": "native-user",
+            "flow": ""
+          },
+          {
+            "id": "YOUR_WARP_UUID",
+            "email": "warp-user",
+            "flow": ""
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "none",
+        "wsSettings": {
+          "host": "",
+          "path": "/"
+        }
+      }
+    },
+    {
+      "port": 18080,
+      "protocol": "hysteria",
+      "settings": {
+        "clients": [
+          {
+            "auth": "YOUR_UUID",
+            "email": "native-user"
+          },
+          {
+            "auth": "YOUR_WARP_UUID",
+            "email": "warp-user"
+          }
+        ],
+        "version": 2
+      },
+      "sniffing": {
+        "enabled": false
+      },
+      "streamSettings": {
+        "finalmask": {
+          "udp": [
+            {
+              "settings": {
+                "stunServers": [
+                  "stun.nextcloud.com:3478",
+                  "global.stun.twilio.com:3478"
+                ],
+                "url": "realm://public@realm.hy2.io/YOUR_UUID"
+              },
+              "type": "realm"
+            }
+          ]
+        },
+        "hysteriaSettings": {
+          "version": 2
+        },
+        "network": "hysteria",
+        "security": "tls",
+        "tlsSettings": {
+          "alpn": [
+            "h3"
+          ],
+          "certificates": [
+            {
+              "certificateFile": "/etc/xy/cert.pem",
+              "keyFile": "/etc/xy/key.pem"
+            }
+          ],
+          "serverName": "www.bing.com",
+          "minVersion": "1.2",
+          "maxVersion": "1.3"
+        }
+      }
+    }
+  ],
+  "routing": {
+    "rules": [
+      {
+        "type": "field",
+        "domain": [
+          "v.com"
+        ],
+        "outboundTag": "force-to-ip"
+      },
+      {
+        "type": "field",
+        "user": ["native-user"],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "user": ["warp-user"],
+        "outboundTag": "warp-out"
+      }
+    ]
+  },
+  "outbounds": [
+    {
+      "tag": "direct",
+      "protocol": "freedom"
+    },
+    {
+      "tag": "force-to-ip",
+      "protocol": "freedom",
+      "settings": {
+        "redirect": "127.0.0.1:0"
+      }
+    },
+    {
+      "tag": "warp-out",
+      "protocol": "wireguard",
+      "settings": {
+        "secretKey": "YOUR_WARP_PRIVATE_KEY",
+        "address": [
+          "172.16.0.2/32",
+          "2606:4700:1111::2/128"
+        ],
+        "peers": [
+          {
+            "publicKey": "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=",
+            "endpoint": "engage.cloudflareclient.com:2408",
+            "allowedIPs": ["0.0.0.0/0", "::/0"]
+          }
+        ],
+        "mtu": 1280,
+        "reserved": [0, 0, 0]
+      }
+    }
+  ]
+}

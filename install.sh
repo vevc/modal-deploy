@@ -12,7 +12,16 @@ unzip -q Xray-linux-64.zip
 mv xray /usr/local/bin/xy
 rm -rf *
 
-curl -sSL -o /etc/xy.json https://raw.githubusercontent.com/vevc/modal-deploy/refs/heads/main/xray-config.json
+mkdir -p /etc/xy
+openssl req -x509 -nodes -newkey ec:<(openssl ecparam -name prime256v1) \
+  -keyout /etc/xy/key.pem \
+  -out /etc/xy/cert.pem \
+  -subj "/CN=www.bing.com" \
+  -addext "subjectAltName=DNS:www.bing.com" \
+  -days 36500
+
+curl -sSL -o /etc/xy/xy-direct.json https://raw.githubusercontent.com/vevc/modal-deploy/refs/heads/main/xray-config.json
+curl -sSL -o /etc/xy/xy-warp.json https://raw.githubusercontent.com/vevc/modal-deploy/refs/heads/main/xray-warp-config.json
 
 curl -sSL -o /usr/local/bin/cf https://github.com/cloudflare/cloudflared/releases/download/$ARGO_VERSION/cloudflared-linux-amd64
 chmod +x /usr/local/bin/cf
@@ -27,8 +36,17 @@ chmod +x /usr/local/bin/sc
 cat > /usr/local/bin/start_xy.sh <<'EOF'
 #!/usr/bin/env bash
 
-cd /etc
-sed -i "s/YOUR_UUID/$U/g" xy.json
+cd /etc/xy
+
+if [ -n "$P" ]; then
+    cp -f xy-warp.json xy.json
+    sed -i "s|YOUR_WARP_PRIVATE_KEY|$P|g" xy.json
+    sed -i "s|YOUR_WARP_UUID|$W|g" xy.json
+else
+    cp -f xy-direct.json xy.json
+fi
+
+sed -i "s|YOUR_UUID|$U|g" xy.json
 exec xy -c xy.json
 
 EOF

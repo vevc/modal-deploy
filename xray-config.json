@@ -13,8 +13,8 @@
         "clients": [
           {
             "id": "YOUR_UUID",
-            "flow": "",
-            "email": "ws-argo"
+            "email": "native-user",
+            "flow": ""
           }
         ]
       },
@@ -24,6 +24,57 @@
         "wsSettings": {
           "host": "",
           "path": "/"
+        }
+      }
+    },
+    {
+      "port": 18080,
+      "protocol": "hysteria",
+      "settings": {
+        "clients": [
+          {
+            "auth": "YOUR_UUID",
+            "email": "native-user"
+          }
+        ],
+        "version": 2
+      },
+      "sniffing": {
+        "enabled": false
+      },
+      "streamSettings": {
+        "finalmask": {
+          "udp": [
+            {
+              "settings": {
+                "stunServers": [
+                  "stun.nextcloud.com:3478",
+                  "global.stun.twilio.com:3478"
+                ],
+                "url": "realm://public@realm.hy2.io/YOUR_UUID"
+              },
+              "type": "realm"
+            }
+          ]
+        },
+        "hysteriaSettings": {
+          "version": 2
+        },
+        "network": "hysteria",
+        "security": "tls",
+        "tlsSettings": {
+          "alpn": [
+            "h3"
+          ],
+          "certificates": [
+            {
+              "certificateFile": "/etc/xy/cert.pem",
+              "keyFile": "/etc/xy/key.pem"
+            }
+          ],
+          "serverName": "www.bing.com",
+          "minVersion": "1.2",
+          "maxVersion": "1.3"
         }
       }
     }
