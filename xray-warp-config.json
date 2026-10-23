@@ -137,7 +137,6 @@
             "endpoint": "engage.cloudflareclient.com:2408"
           }
         ],
-        "mtu": 1280,
         "reserved": [0, 0, 0]
       }
     }
