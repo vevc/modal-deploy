@@ -2,10 +2,10 @@
 
 cd /root
 
-XRAY_VERSION="26.3.27"
-ARGO_VERSION="2026.3.0"
+XRAY_VERSION="26.10.21"
+ARGO_VERSION="2026.10.3"
 TTYD_VERSION="1.7.7"
-SUPERCRONIC_VERSION="0.2.44"
+SUPERCRONIC_VERSION="0.2.51"
 
 curl -sSL -o Xray-linux-64.zip https://github.com/XTLS/Xray-core/releases/download/v$XRAY_VERSION/Xray-linux-64.zip
 unzip -q Xray-linux-64.zip
