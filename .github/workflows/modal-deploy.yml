@@ -52,4 +52,4 @@ jobs:
           MODAL_NONPREEMPTIBLE: ${{ inputs.modal_nonpreemptible }}
         run: |
           set -euo pipefail
-          modal deploy --name "${MODAL_APP_NAME:-vevc-app}" main.py
+          modal deploy main.py
