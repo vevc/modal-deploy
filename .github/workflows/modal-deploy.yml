@@ -3,6 +3,14 @@ name: Deploy Modal App
 on:
   workflow_dispatch:
     inputs:
+      app_name:
+        description: "可选：指定 Modal App 名称。留空则默认为 vevc-app。部署不同名称可同时运行多个独立应用。"
+        required: false
+        default: "vevc-app"
+      modal_secret_name:
+        description: "可选：指定引用的 Modal Secret 名称。留空则默认为 custom-secret。多应用需要不同配置时可指定不同 Secret。"
+        required: false
+        default: "custom-secret"
       modal_region:
         description: "可选：指定 Modal 运行区域（例如 us-west、ap-northeast-1）。多个区域用英文逗号分隔。留空表示不固定区域（默认调度）。参考：https://modal.com/docs/guide/region-selection#region-options"
         required: false
@@ -38,8 +46,10 @@ jobs:
         env:
           MODAL_TOKEN_ID: ${{ secrets.MODAL_TOKEN_ID }}
           MODAL_TOKEN_SECRET: ${{ secrets.MODAL_TOKEN_SECRET }}
+          MODAL_APP_NAME: ${{ inputs.app_name }}
+          MODAL_SECRET_NAME: ${{ inputs.modal_secret_name }}
           MODAL_REGION: ${{ inputs.modal_region }}
           MODAL_NONPREEMPTIBLE: ${{ inputs.modal_nonpreemptible }}
         run: |
           set -euo pipefail
-          modal deploy main.py
+          modal deploy --name "${MODAL_APP_NAME:-vevc-app}" main.py

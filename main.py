@@ -5,9 +5,11 @@ import os
 import subprocess
 import uuid
 
-INSTALL_SCRIPT_VERSION = 7
+INSTALL_SCRIPT_VERSION = 8
 
 # Optional deploy-time settings (read when `modal deploy` loads this file):
+#   MODAL_APP_NAME          Custom app name (default: "vevc-app").
+#   MODAL_SECRET_NAME       Custom secret name (default: "custom-secret").
 #   MODAL_REGION            Comma-separated region ids (e.g. "us-east" or "ap-northeast-1,eu-west-1").
 #                           Unset or empty = Modal default scheduling (no fixed region).
 #                           See https://modal.com/docs/guide/region-selection
@@ -24,7 +26,10 @@ def _modal_function_options():
         opts["nonpreemptible"] = True
     return opts
 
-app = modal.App("vevc-app")
+APP_NAME = os.environ.get("MODAL_APP_NAME", "").strip() or "vevc-app"
+SECRET_NAME = os.environ.get("MODAL_SECRET_NAME", "").strip() or "custom-secret"
+
+app = modal.App(APP_NAME)
 vevc_image = (
     modal.Image.debian_slim()
         .apt_install("curl", "unzip", "supervisor", "procps", "openssl", "sudo", "wget", "ca-certificates", "openssh-client", "vim", "net-tools", "iputils-ping", "telnet", "git", "iproute2")
@@ -84,7 +89,7 @@ def start_supervisor():
 
 @app.function(
     image=vevc_image,
-    secrets=[modal.Secret.from_name("custom-secret")],
+    secrets=[modal.Secret.from_name(SECRET_NAME)],
     min_containers=1,
     max_containers=1,
     scaledown_window=1200,

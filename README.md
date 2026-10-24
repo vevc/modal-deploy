@@ -27,7 +27,7 @@
    | U | ✔ | UUID（原生出口节点用户凭据） |
    | D | ✔ | Argo 域名（ARGO_DOMAIN） |
    | T | ✔ | Argo Tunnel Token（ARGO_TOKEN） |
-   | E | ✖ | Modal 项目访问地址（endpoint），形如：`https://<modal_username>--vevc-app-main.modal.run`，如果填写，项目大概每 5 分钟会访问一次自身地址，保持有活跃流量 |
+   | E | ✖ | Modal 项目访问地址（endpoint），形如：`https://<modal_username>--<app_name>-main.modal.run`，如果填写，项目大概每 5 分钟会访问一次自身地址，保持有活跃流量 |
    | P | ✖ | Cloudflare WARP WireGuard 私钥。若配置，系统会自动派生 WARP 用户 UUID 并启用 WARP 出口分流 |
 
 
@@ -41,7 +41,9 @@
 
 3. 确认 **Actions** 已启用。
 
-4. 在 **Actions** 中选择工作流 **Modal Deploy** → **Run workflow**，可选填写：
+4. 在 **Actions** 中选择工作流 **Deploy Modal App** → **Run workflow**，可选填写：
+   - **app_name**：可选，Modal App 名称；留空默认为 `vevc-app`。填写不同的名称可以同时部署并运行多个独立的应用。
+   - **modal_secret_name**：可选，引用的 Modal Secret 名称；留空默认为 `custom-secret`。多应用需要各自独立配置（不同域名、UUID、Token）时，可在 Modal 创建不同的 Secret 并在此指定。
    - **modal_region**：可选，Modal 运行区域，多个用英文逗号分隔；留空表示不固定区域。区域列表见 [Region selection](https://modal.com/docs/guide/region-selection#region-options)。
    - **modal_nonpreemptible**：`false` / `true`，是否启用非抢占。说明见 [Non-preemptible Functions](https://modal.com/docs/guide/preemption#non-preemptible-functions)。
 
@@ -51,10 +53,11 @@
 
 部署成功后，访问下面地址查看订阅链接（返回内容为订阅信息的 Base64 编码）：
 
-`https://<modal_username>--vevc-app-main.modal.run/<UUID>`
+`https://<modal_username>--<app_name>-main.modal.run/<UUID>`
 
 - `<modal_username>`：你的 Modal 用户名
-- `<UUID>`：你在 Modal Secret `custom-secret` 中设置的 `U`
+- `<app_name>`：你的应用名称（默认为 `vevc-app`）
+- `<UUID>`：你在对应 Modal Secret 中设置的 `U`
 
 **节点输出逻辑说明**：
 - **未配置 `P` 变量时**：返回 **2 个原生网络节点**
