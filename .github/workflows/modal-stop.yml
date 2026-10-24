@@ -1,4 +1,4 @@
-name: Modal Stop App
+name: Stop Modal App
 
 on:
   workflow_dispatch:

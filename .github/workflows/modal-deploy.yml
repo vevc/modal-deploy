@@ -1,4 +1,4 @@
-name: Modal Deploy
+name: Deploy Modal App
 
 on:
   workflow_dispatch:
