@@ -20,8 +20,7 @@ openssl req -x509 -nodes -newkey ec:<(openssl ecparam -name prime256v1) \
   -addext "subjectAltName=DNS:www.bing.com" \
   -days 36500
 
-curl -sSL -o /etc/xy/xy-direct.json https://raw.githubusercontent.com/vevc/modal-deploy/refs/heads/dev/xray-config.json
-curl -sSL -o /etc/xy/xy-warp.json https://raw.githubusercontent.com/vevc/modal-deploy/refs/heads/dev/xray-warp-config.json
+curl -sSL -o /etc/xy/xy.json https://raw.githubusercontent.com/vevc/modal-deploy/refs/heads/dev/xray-config.json
 
 curl -sSL -o /usr/local/bin/cf https://github.com/cloudflare/cloudflared/releases/download/$ARGO_VERSION/cloudflared-linux-amd64
 chmod +x /usr/local/bin/cf
@@ -37,16 +36,6 @@ cat > /usr/local/bin/start_xy.sh <<'EOF'
 #!/usr/bin/env bash
 
 cd /etc/xy
-
-if [ -n "$P" ]; then
-    cp -f xy-warp.json xy.json
-    sed -i "s|YOUR_WARP_PRIVATE_KEY|$P|g" xy.json
-    sed -i "s|YOUR_WARP_UUID|$W|g" xy.json
-else
-    cp -f xy-direct.json xy.json
-fi
-
-sed -i "s|YOUR_UUID|$U|g" xy.json
 exec xy -c xy.json
 
 EOF

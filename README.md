@@ -29,6 +29,7 @@
    | T | ✔ | Argo Tunnel Token（ARGO_TOKEN） |
    | E | ✖ | Modal 项目访问地址（endpoint），形如：`https://<modal_username>--<app_name>-main.modal.run`，如果填写，项目大概每 5 分钟会访问一次自身地址，保持有活跃流量 |
    | P | ✖ | Cloudflare WARP WireGuard 私钥。若配置，系统会自动派生 WARP 用户 UUID 并启用 WARP 出口分流 |
+   | S | ✖ | 上游 SOCKS5 代理地址，格式为 `socks5://[user:pass@]host:port` 或 `host:port`。若配置，系统会自动派生 SOCKS5 用户 UUID 并启用 SOCKS5 出口分流 |
 
 
 ## GitHub Actions 部署
@@ -60,11 +61,14 @@
 - `<UUID>`：你在对应 Modal Secret 中设置的 `U`
 
 **节点输出逻辑说明**：
-- **未配置 `P` 变量时**：返回 **2 个原生网络节点**
+- **基础输出（始终提供）**：返回 **2 个原生网络节点**
   - `modal-ws-argo`：VLESS-WS 协议（基于 Cloudflare Argo Tunnel，原生网络出口）
   - `modal-hy2-realm`：Hysteria 2 协议（基于 Realm NAT 穿透，原生网络出口）
-- **已配置 `P` 变量时**：返回 **4 个节点**（2 个原生网络节点 + 2 个 WARP 出口分流节点）
-  - 额外提供经由 Cloudflare WARP 出口分流的 `modal-ws-warp` 与 `modal-hy2-warp`
+- **配置 `P` 变量时**：追加 **2 个 WARP 出口分流节点**
+  - `modal-ws-warp` 与 `modal-hy2-warp`
+- **配置 `S` 变量时**：追加 **2 个 SOCKS5 出口分流节点**
+  - `modal-ws-socks` 与 `modal-hy2-socks`
+- **同时配置 `P` 和 `S` 时**：共返回 **6 个节点**（2 个原生 + 2 个 WARP + 2 个 SOCKS5）
 
 ## 说明
 

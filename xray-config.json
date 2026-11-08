@@ -84,6 +84,13 @@
           "v.com"
         ],
         "outboundTag": "force-to-ip"
+      },
+      {
+        "type": "field",
+        "user": [
+          "native-user"
+        ],
+        "outboundTag": "direct"
       }
     ]
   },
